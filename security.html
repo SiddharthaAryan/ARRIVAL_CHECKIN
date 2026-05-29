@@ -9,19 +9,20 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <style>
-    :root{--red:#b5121b;--blue:#123a68;--deep:#071427;--muted:#667085;--line:#e7edf5;--bg:#f5f8fc;--green:#0f9f6e}
+    :root{--red:#b5121b;--blue:#123a68;--deep:#071427;--muted:#667085;--line:#e7edf5;--bg:#f5f8fc;--green:#0f9f6e;--amber:#b45309}
     *{box-sizing:border-box}
     body{margin:0;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--deep)}
     header{background:linear-gradient(135deg,var(--blue),#071427);color:white;padding:22px 20px;box-shadow:0 18px 40px rgba(7,20,39,.18)}
-    .top{max-width:1180px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+    .top{max-width:1280px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
     h1{margin:0;font-size:26px;letter-spacing:-.035em}.sub{margin-top:6px;color:#cbd8ea;font-size:14px}.actions{display:flex;gap:10px;flex-wrap:wrap}
     button{border:0;border-radius:12px;padding:11px 14px;font-weight:800;cursor:pointer;background:white;color:var(--blue)}
     button.primary{background:linear-gradient(135deg,var(--red),#d31b27);color:white}button.excel{background:#ecfdf6;color:#06724e}button:disabled{opacity:.6;cursor:not-allowed}
-    main{max-width:1180px;margin:24px auto;padding:0 18px}.panel{background:white;border:1px solid var(--line);border-radius:24px;box-shadow:0 16px 45px rgba(18,58,104,.08);padding:20px;margin-bottom:18px}
-    .stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.stat{border:1px solid var(--line);border-radius:18px;padding:18px;background:linear-gradient(180deg,#fff,#f9fbff)}.stat span{display:block;color:var(--muted);font-size:13px;font-weight:700}.stat strong{display:block;margin-top:8px;font-size:30px;letter-spacing:-.04em}
+    main{max-width:1280px;margin:24px auto;padding:0 18px}.panel{background:white;border:1px solid var(--line);border-radius:24px;box-shadow:0 16px 45px rgba(18,58,104,.08);padding:20px;margin-bottom:18px}
+    .stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.stat{border:1px solid var(--line);border-radius:18px;padding:18px;background:linear-gradient(180deg,#fff,#f9fbff)}.stat span{display:block;color:var(--muted);font-size:13px;font-weight:700}.stat strong{display:block;margin-top:8px;font-size:30px;letter-spacing:-.04em}
     .toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.search{min-width:260px;flex:1;border:1px solid var(--line);border-radius:14px;padding:13px 14px;font-size:14px;outline:none}
-    table{width:100%;border-collapse:collapse;margin-top:15px;overflow:hidden}th,td{text-align:left;padding:14px 12px;border-bottom:1px solid var(--line);font-size:14px}th{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:#667085;background:#f8fafc}td.phone{font-weight:800;color:var(--blue)}.empty{text-align:center;color:var(--muted);padding:36px}.pill{display:inline-block;background:#ecfdf6;color:#06724e;border:1px solid #b9f1da;border-radius:999px;padding:5px 9px;font-size:12px;font-weight:800}.small{font-size:12px;color:var(--muted);line-height:1.5;margin-top:10px}.warning{background:#fff8e6;border:1px solid #ffe2a8;color:#8a5a00;border-radius:16px;padding:12px 14px;font-size:13px;font-weight:700;line-height:1.5;margin-bottom:16px}
-    @media(max-width:760px){.stats{grid-template-columns:1fr}h1{font-size:22px}th:nth-child(4),td:nth-child(4){display:none}}
+    table{width:100%;border-collapse:collapse;margin-top:15px;overflow:hidden}th,td{text-align:left;padding:14px 12px;border-bottom:1px solid var(--line);font-size:14px;vertical-align:top}th{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:#667085;background:#f8fafc}td.phone{font-weight:800;color:var(--blue)}.empty{text-align:center;color:var(--muted);padding:36px}.pill{display:inline-block;border-radius:999px;padding:5px 9px;font-size:12px;font-weight:800;white-space:nowrap}.pill.live{background:#ecfdf6;color:#06724e;border:1px solid #b9f1da}.pill.first{background:#eef6ff;color:#123a68;border:1px solid #cfe5ff}.pill.repeat{background:#fff7ed;color:#b45309;border:1px solid #fed7aa}.small{font-size:12px;color:var(--muted);line-height:1.5;margin-top:10px}.warning{background:#fff8e6;border:1px solid #ffe2a8;color:#8a5a00;border-radius:16px;padding:12px 14px;font-size:13px;font-weight:700;line-height:1.5;margin-bottom:16px}.history{font-size:12px;color:#475467;line-height:1.55;max-width:260px}.history strong{color:#111827}.repeat-row{background:#fffaf4}
+    @media(max-width:900px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media(max-width:760px){.stats{grid-template-columns:1fr}h1{font-size:22px}th:nth-child(4),td:nth-child(4),th:nth-child(7),td:nth-child(7){display:none}}
   </style>
 </head>
 <body>
@@ -45,14 +46,15 @@
     <section id="dashboardPanel">
       <div class="stats">
         <div class="stat"><span>Total Check-ins</span><strong id="totalCount">0</strong></div>
+        <div class="stat"><span>Unique Mobile Numbers</span><strong id="uniqueCount">0</strong></div>
+        <div class="stat"><span>Repeat Entries</span><strong id="repeatCount">0</strong></div>
         <div class="stat"><span>Latest Check-in</span><strong id="latestTime">—</strong></div>
-        <div class="stat"><span>Status</span><strong><span class="pill">Live</span></strong></div>
       </div>
 
       <div class="panel" style="margin-top:18px">
         <div class="toolbar">
           <input id="searchInput" class="search" placeholder="Search by name or mobile number..." />
-          <div class="small">Direct dashboard access enabled</div>
+          <div class="small"><span class="pill live">Live</span> Repeated mobile numbers are marked as repeat check-ins.</div>
         </div>
         <div style="overflow:auto">
           <table>
@@ -62,10 +64,13 @@
                 <th>Name</th>
                 <th>Mobile Number</th>
                 <th>Check-in Time</th>
+                <th>Status</th>
+                <th>Total Times</th>
+                <th>All Timestamps for Same Mobile</th>
               </tr>
             </thead>
             <tbody id="tableBody">
-              <tr><td colspan="4" class="empty">Loading check-ins...</td></tr>
+              <tr><td colspan="7" class="empty">Loading check-ins...</td></tr>
             </tbody>
           </table>
         </div>
@@ -84,6 +89,8 @@
     const tableBody = document.getElementById("tableBody");
     const searchInput = document.getElementById("searchInput");
     const totalCount = document.getElementById("totalCount");
+    const uniqueCount = document.getElementById("uniqueCount");
+    const repeatCount = document.getElementById("repeatCount");
     const latestTime = document.getElementById("latestTime");
 
     function firebaseLooksReady(){
@@ -91,6 +98,17 @@
     }
 
     let app, db, unsubscribe = null, allRows = [];
+
+    function normalizePhone(phone){
+      return String(phone || "").replace(/\D/g, "");
+    }
+
+    function getTimeValue(docData){
+      if(docData.createdAt && docData.createdAt.toMillis) return docData.createdAt.toMillis();
+      if(docData.createdAt && docData.createdAt.toDate) return docData.createdAt.toDate().getTime();
+      const parsed = Date.parse(docData.createdAtLocal || "");
+      return Number.isNaN(parsed) ? 0 : parsed;
+    }
 
     function formatTime(docData){
       if(docData.createdAt && docData.createdAt.toDate){
@@ -110,47 +128,90 @@
       return String(value).replace(/[&<>'"]/g, char => ({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;","\"":"&quot;"}[char]));
     }
 
+    function enrichRows(rows){
+      const byPhone = new Map();
+      const oldestFirst = [...rows].sort((a, b) => getTimeValue(a) - getTimeValue(b));
+
+      oldestFirst.forEach(row => {
+        const phoneKey = normalizePhone(row.phone) || `no-phone-${row.id}`;
+        if(!byPhone.has(phoneKey)) byPhone.set(phoneKey, []);
+        byPhone.get(phoneKey).push(row);
+      });
+
+      const metaById = new Map();
+      byPhone.forEach(group => {
+        const history = group.map(item => formatTime(item));
+        group.forEach((row, index) => {
+          metaById.set(row.id, {
+            attemptNumber: index + 1,
+            totalAttempts: group.length,
+            isRepeat: index > 0,
+            history
+          });
+        });
+      });
+
+      return rows.map(row => ({ ...row, ...metaById.get(row.id) }));
+    }
+
     function getFilteredRows(){
       const term = searchInput.value.trim().toLowerCase();
-      return allRows.filter(row => `${row.name} ${row.phone}`.toLowerCase().includes(term));
+      return allRows.filter(row => `${row.name} ${row.phone} ${row.isRepeat ? "repeat" : "first"}`.toLowerCase().includes(term));
+    }
+
+    function updateStats(){
+      totalCount.textContent = allRows.length;
+      uniqueCount.textContent = new Set(allRows.map(row => normalizePhone(row.phone)).filter(Boolean)).size;
+      repeatCount.textContent = allRows.filter(row => row.isRepeat).length;
+      latestTime.textContent = allRows[0] ? formatTime(allRows[0]) : "—";
     }
 
     function renderRows(){
       const filtered = getFilteredRows();
-      totalCount.textContent = allRows.length;
-      latestTime.textContent = allRows[0] ? formatTime(allRows[0]) : "—";
+      updateStats();
 
       if(!filtered.length){
-        tableBody.innerHTML = `<tr><td colspan="4" class="empty">No matching check-ins found.</td></tr>`;
+        tableBody.innerHTML = `<tr><td colspan="7" class="empty">No matching check-ins found.</td></tr>`;
         return;
       }
 
-      tableBody.innerHTML = filtered.map((row, index) => `
-        <tr>
-          <td>${index + 1}</td>
-          <td><strong>${escapeHtml(row.name || "—")}</strong></td>
-          <td class="phone">${escapeHtml(row.phone || "—")}</td>
-          <td>${escapeHtml(formatTime(row))}</td>
-        </tr>
-      `).join("");
+      tableBody.innerHTML = filtered.map((row, index) => {
+        const statusText = row.isRepeat ? `Repeat #${row.attemptNumber}` : "First check-in";
+        const statusClass = row.isRepeat ? "repeat" : "first";
+        const historyHtml = (row.history || []).map((time, i) => `${i + 1}. ${escapeHtml(time)}`).join("<br>");
+
+        return `
+          <tr class="${row.isRepeat ? "repeat-row" : ""}">
+            <td>${index + 1}</td>
+            <td><strong>${escapeHtml(row.name || "—")}</strong></td>
+            <td class="phone">${escapeHtml(row.phone || "—")}</td>
+            <td>${escapeHtml(formatTime(row))}</td>
+            <td><span class="pill ${statusClass}">${statusText}</span></td>
+            <td><strong>${row.totalAttempts || 1}</strong></td>
+            <td><div class="history">${historyHtml}</div></td>
+          </tr>
+        `;
+      }).join("");
     }
 
     function listenForData(){
       if(unsubscribe) unsubscribe();
       const q = query(collection(db, eventConfig.collectionName), orderBy("createdAt", "desc"));
       unsubscribe = onSnapshot(q, snapshot => {
-        allRows = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        const rows = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        allRows = enrichRows(rows);
         renderRows();
       }, error => {
         console.error(error);
-        tableBody.innerHTML = `<tr><td colspan="4" class="empty">Unable to load data. Update Firestore Rules to allow public read for arrivalCheckins.</td></tr>`;
+        tableBody.innerHTML = `<tr><td colspan="7" class="empty">Unable to load data. Update Firestore Rules to allow public read for arrivalCheckins.</td></tr>`;
       });
     }
 
     async function manualRefresh(){
       const q = query(collection(db, eventConfig.collectionName), orderBy("createdAt", "desc"));
       const snapshot = await getDocs(q);
-      allRows = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      const rows = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      allRows = enrichRows(rows);
       renderRows();
     }
 
@@ -159,7 +220,10 @@
         "S. No.": index + 1,
         "Name": row.name || "",
         "Mobile Number": row.phone || "",
-        "Check-in Time": getExcelTime(row),
+        "Current Check-in Time": getExcelTime(row),
+        "Entry Status": row.isRepeat ? `Repeat check-in #${row.attemptNumber}` : "First check-in",
+        "Total Check-ins for This Mobile": row.totalAttempts || 1,
+        "All Timestamps for Same Mobile": (row.history || []).join(" | "),
         "Event": row.eventName || eventConfig.eventName,
         "Hospital": row.hospitalName || eventConfig.hospitalName
       }));
@@ -174,6 +238,9 @@
         { wch: 28 },
         { wch: 16 },
         { wch: 24 },
+        { wch: 20 },
+        { wch: 24 },
+        { wch: 60 },
         { wch: 26 },
         { wch: 30 }
       ];
@@ -183,7 +250,7 @@
     }
 
     function exportCSV(){
-      const headers = ["S. No.", "Name", "Mobile Number", "Check-in Time", "Event", "Hospital"];
+      const headers = ["S. No.", "Name", "Mobile Number", "Current Check-in Time", "Entry Status", "Total Check-ins for This Mobile", "All Timestamps for Same Mobile", "Event", "Hospital"];
       const rows = buildExportRows().map(row => headers.map(header => row[header]));
       if(!rows.length){ alert("No check-in data available to export."); return; }
       const csv = [headers, ...rows].map(cols => cols.map(value => `"${String(value).replace(/"/g, '""')}"`).join(",")).join("\n");
@@ -199,7 +266,7 @@
     }
 
     if(!firebaseLooksReady()){
-      tableBody.innerHTML = `<tr><td colspan="4" class="empty">Firebase is not connected yet. Complete firebase-config.js first.</td></tr>`;
+      tableBody.innerHTML = `<tr><td colspan="7" class="empty">Firebase is not connected yet. Complete firebase-config.js first.</td></tr>`;
       refreshBtn.disabled = true;
       exportExcelBtn.disabled = true;
       exportCsvBtn.disabled = true;
