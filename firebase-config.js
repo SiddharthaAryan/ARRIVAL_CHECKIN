@@ -1,14 +1,13 @@
 // Firebase configuration for ARRIVAL_CHECKIN
-// Step: Replace the placeholder values below with your Firebase web app config.
-// Important: Firebase config is allowed to be public. Security comes from Firebase Auth + Firestore Rules.
+// Firebase config is allowed to be public. Security comes from Firebase Auth + Firestore Rules.
 
 export const firebaseConfig = {
-  apiKey: "PASTE_API_KEY_HERE",
-  authDomain: "PASTE_PROJECT_ID.firebaseapp.com",
-  projectId: "PASTE_PROJECT_ID",
-  storageBucket: "PASTE_PROJECT_ID.appspot.com",
-  messagingSenderId: "PASTE_MESSAGING_SENDER_ID",
-  appId: "PASTE_APP_ID"
+  apiKey: "AIzaSyDYjmmo46xpJhf911Hi2cvOfabnxLGMEvI",
+  authDomain: "mmi-oncology-arrival-checkin.firebaseapp.com",
+  projectId: "mmi-oncology-arrival-checkin",
+  storageBucket: "mmi-oncology-arrival-checkin.firebasestorage.app",
+  messagingSenderId: "922842566682",
+  appId: "1:922842566682:web:a9c3e55eb11eeabcfa01a3"
 };
 
 // Only these emails should be allowed to open the security dashboard.
