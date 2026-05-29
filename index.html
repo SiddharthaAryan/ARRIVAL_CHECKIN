@@ -115,10 +115,62 @@
       font-size:14px;
       line-height:1.5;
     }
-    .message.success{display:block;background:#ecfdf6;color:#06724e;border:1px solid #b9f1da}
     .message.error{display:block;background:#fff1f2;color:#a60813;border:1px solid #ffd4d8}
     .footer{margin-top:18px;text-align:center;color:#7a8699;font-size:12px;line-height:1.5}
     .privacy{margin-top:14px;padding:12px 14px;border-radius:16px;background:#f7f9fc;color:#667085;font-size:12px;line-height:1.5}
+
+    .success-overlay{
+      position:fixed;
+      inset:0;
+      z-index:999;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+      background:rgba(3,24,14,.78);
+      backdrop-filter:blur(10px);
+      cursor:pointer;
+    }
+    .success-overlay.show{display:flex}
+    .success-box{
+      width:min(92vw,640px);
+      border-radius:34px;
+      padding:42px 30px;
+      text-align:center;
+      background:linear-gradient(135deg,#0f9f6e,#06724e);
+      color:white;
+      box-shadow:0 32px 90px rgba(6,114,78,.42);
+      border:1px solid rgba(255,255,255,.28);
+      animation:popIn .24s ease-out;
+    }
+    .success-icon{
+      width:76px;
+      height:76px;
+      border-radius:999px;
+      display:grid;
+      place-items:center;
+      margin:0 auto 20px;
+      background:rgba(255,255,255,.18);
+      border:2px solid rgba(255,255,255,.55);
+      font-size:42px;
+      font-weight:900;
+    }
+    .success-box h2{
+      margin:0;
+      font-size:clamp(30px,7vw,56px);
+      line-height:1.08;
+      letter-spacing:-.045em;
+    }
+    .success-box p{
+      margin:18px 0 0;
+      font-size:16px;
+      color:rgba(255,255,255,.88);
+      font-weight:700;
+    }
+    @keyframes popIn{
+      from{opacity:0;transform:scale(.94) translateY(12px)}
+      to{opacity:1;transform:scale(1) translateY(0)}
+    }
   </style>
 </head>
 <body>
@@ -155,6 +207,14 @@
     <div class="footer">Oncology Symposium 2026 • MMI Narayana Health, Raipur</div>
   </main>
 
+  <div id="successOverlay" class="success-overlay" role="dialog" aria-live="polite" aria-label="Check-in successful">
+    <div class="success-box">
+      <div class="success-icon">✓</div>
+      <h2>Thank you.<br>Your arrival check-in is complete.</h2>
+      <p>Tap anywhere to continue.</p>
+    </div>
+  </div>
+
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
     import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
@@ -164,6 +224,7 @@
     const message = document.getElementById("message");
     const submitBtn = document.getElementById("submitBtn");
     const phoneInput = document.getElementById("phoneNumber");
+    const successOverlay = document.getElementById("successOverlay");
 
     phoneInput.addEventListener("input", () => {
       phoneInput.value = phoneInput.value.replace(/\D/g, "").slice(0, 10);
@@ -173,6 +234,25 @@
       message.className = `message ${type}`;
       message.textContent = text;
     }
+
+    function clearMessage(){
+      message.className = "message";
+      message.textContent = "";
+    }
+
+    function showSuccessOverlay(){
+      successOverlay.classList.add("show");
+    }
+
+    function hideSuccessOverlay(){
+      successOverlay.classList.remove("show");
+      document.getElementById("guestName").focus();
+    }
+
+    successOverlay.addEventListener("click", hideSuccessOverlay);
+    document.addEventListener("keydown", (event) => {
+      if(event.key === "Escape" || event.key === "Enter") hideSuccessOverlay();
+    });
 
     function firebaseLooksReady(){
       return firebaseConfig.apiKey && !firebaseConfig.apiKey.includes("PASTE_") && !firebaseConfig.projectId.includes("PASTE_");
@@ -203,6 +283,7 @@
         return;
       }
 
+      clearMessage();
       submitBtn.disabled = true;
       submitBtn.textContent = "Checking you in...";
 
@@ -218,8 +299,9 @@
         });
 
         form.reset();
-        showMessage("success", "Thank you. Your arrival check-in is complete.");
-        submitBtn.textContent = "Checked In";
+        showSuccessOverlay();
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Complete Check-in";
       } catch(error){
         console.error(error);
         showMessage("error", "Check-in failed. Please contact the registration desk.");
